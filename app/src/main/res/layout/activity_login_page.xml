@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.login.LoginPage">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="40dp"
+                android:gravity="center"
+                android:text="FIND YOUR PRODUCT"
+                android:textColor="#303F9F"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:hint="xyz@gmail.com"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/input_box"
+                android:paddingHorizontal="15dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Password"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:inputType="textPassword"
+                android:background="@drawable/input_box"
+                android:paddingHorizontal="15dp"/>
+
+            <TextView
+                android:id="@+id/errorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wrong password"
+                android:textColor="#FB3232"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="40dp"
+                android:text="LOGIN"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/signInText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Don't have an account? Sign up!"
+                android:textColor="#303F9F"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

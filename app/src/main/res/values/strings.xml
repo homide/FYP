@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">FYP</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="title_activity_feedback">Feedback</string>
+
+    <string name="app_domain1">Omono</string>
+    <string name="app_domain2">.in</string>
+
+
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="searchbar_hint">Search Here…</string>
+    <string name="searchcat">Search by Category</string>
+
+
+    <!-- Category names -->
+
+    <string name="categories">Select Category:</string>
+    <string name="fashion">Fashion</string>
+    <string name="groceries">Groceries</string>
+    <string name="medicines">Medicines</string>
+    <string name="electronics">Electronics</string>
+    <string name="general">General</string>
+
+
+    <!-- Suggestions Array -->
+
+    <string-array name="suggestions">
+        <item>Masks</item>
+        <item>Laptop</item>
+        <item>Realme</item>
+        <item>Iphone</item>
+        <item>JBL</item>
+        <item>Earphones</item>
+    </string-array>
+</resources>
