@@ -3,6 +3,7 @@ package com.project.fyp.activities.login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.fyp.R;
+import com.project.fyp.activities.MainActivity;
+import com.project.fyp.database.DatabaseHelper;
 
 import java.util.HashMap;
 
@@ -35,9 +38,11 @@ public class SignInPage extends AppCompatActivity {
 
     //Firebase
     FirebaseDatabase firebaseDatabase;
-    FirebaseUser firebaseUser;
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
+
+    //Database
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +56,9 @@ public class SignInPage extends AppCompatActivity {
         signUpButton = findViewById(R.id.signUpButton);
 
         firebaseDatabase = FirebaseDatabase.getInstance("https://fyp-main-144de-default-rtdb.asia-southeast1.firebasedatabase.app");
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         firebaseAuth = FirebaseAuth.getInstance();
 
+        databaseHelper = new DatabaseHelper(this);
 
         signUpButton.setOnClickListener(v->{
             emailText = email.getText().toString().trim();
@@ -61,51 +66,44 @@ public class SignInPage extends AppCompatActivity {
             passwordText = password.getText().toString().trim();
             passConfirmText = passwordConfirm.getText().toString().trim();
             if (checkForDetails(emailText,passwordText,passConfirmText,usernameText)){
-                if (checkEmailExistsOrNot(emailText)){
-                    Toast.makeText(SignInPage.this, "User with this email already exists!", Toast.LENGTH_LONG).show();
-                }else{
-                    firebaseAuth.createUserWithEmailAndPassword(emailText,passwordText);
-                    sendInfo(emailText, usernameText);
-                }
+                checkEmailExistsOrNot(emailText);
             }
         });
 
-    }
-
-    private void setUpProfile(String mail, String name){
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    private void sendInfo(String mail, String name){
-        databaseReference = firebaseDatabase.getReference("Users");
-        HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("mail", mail);
-        hashMap.put("name", name);
-
-        databaseReference.setValue(hashMap);
     }
 
     private boolean checkEmailExistsOrNot(String mail){
         firebaseAuth.fetchSignInMethodsForEmail(mail).addOnCompleteListener(task -> {
             if (task.getResult().getSignInMethods().size() == 0){
-                checkMailExist = false;
+                sendInfo(emailText, usernameText);
+                firebaseAuth.createUserWithEmailAndPassword(emailText,passwordText);
             }else {
-                checkMailExist = true;
+                Toast.makeText(SignInPage.this, "User with this email already exists!", Toast.LENGTH_LONG).show();
             }
         });
 
         return checkMailExist;
     }
+
+    private void sendInfo(String mail, String name){
+        databaseReference = firebaseDatabase.getReference();
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("mail", mail);
+        hashMap.put("name", name);
+
+        databaseReference.child("Users").push().setValue(hashMap);
+
+        Toast.makeText(SignInPage.this, "Profile Created! Please login again.", Toast.LENGTH_LONG).show();
+        addToDatabase(emailText, passwordText, "true");
+
+        onBackPressed();
+    }
+
+    private void addToDatabase(String email, String password, String loggedIn){
+        databaseHelper.deleteLoginDetails();
+        databaseHelper.insertLoginDetails(email, password,loggedIn);
+    }
+
 
     private boolean checkForDetails(String emailText, String passwordText, String passConfirmText, String usernameText){
         if (password.length() < 7){
@@ -123,5 +121,11 @@ public class SignInPage extends AppCompatActivity {
         }else{
             return true;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

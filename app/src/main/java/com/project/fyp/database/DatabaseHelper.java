@@ -89,16 +89,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public void updateLoginDetails(String email, String password, String loggedIn){
+    public String getEmail(){
         try{
-            SQLiteDatabase db = getWritableDatabase();
-            ContentValues contentValues = new ContentValues();
-            contentValues.put("email",email);
-            contentValues.put("password",password);
-            contentValues.put("loggedIn",loggedIn);
-            db.update(LOGIN_DATABASE,contentValues,"email = '" + email + "'", null);
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor cur = db.rawQuery("SELECT email FROM " + LOGIN_DATABASE, null);
+            while (cur.moveToNext()){
+                return cur.getString(0);
+            }
+            return "";
         }catch (Exception e){
             System.out.println(e);
+            return "";
         }
     }
 
