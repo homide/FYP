@@ -31,8 +31,6 @@ public class CallingFashion {
         // 4- Paytm           // 9- Amazon pantry          //13 - Bewakoof      // 17 -               // 21 -
         //5- Amazon
 
-
-
         //Loop To Initialize Variables for storing required HTML Data
         for (Element link : links) {
             String temp1 = null, temp2 = null, temp3 = null, temp4 = null, temp5 = null, temp6 = null,temp7 = null;
@@ -50,9 +48,6 @@ public class CallingFashion {
 
             Elements elpriceafter = link.getElementsByClass(discountedPriceClass);//JSoup Element to get Discounted Price Date from corresponding HTML Class
 
-            if(sNo == 1){
-                elproductimage = link.getElementsByTag(productImageClass);
-            }
             if(sNo == 2 ||sNo == 3|| sNo == 4 ||sNo == 5|| sNo == 6 || sNo == 11|| sNo == 13|| sNo == 19){                                //When ShopClues and Paytm mall is being parsed,
                 elproductimage = link.getElementsByTag(productImageClass);    //We are getting URL of Product Image by HTML Tag because there is no proper class identifying the image url
             }
@@ -78,47 +73,14 @@ public class CallingFashion {
                 case 5:
                     temp7 = "Amazon";
                     break;
-                case 6:
-                    temp7 = "Grofers";
-                    break;
-                case 7:
-                    temp7 = "BigBasket";
-                    break;
-                case 8:
-                    temp7 = "AmazonPantry";
-                    break;
-                case 9:
-                    temp7 = "Flipmart";
-                    break;
-                case 10:
-                    temp7 = "AJIO";
-                    break;
-                case 11:
-                    temp7 = "Myntra";
-                    break;
                 case 12:
                     temp7 = "Koovs";
                     break;
                 case 13:
                     temp7 = "Bewakoof";
                     break;
-                case 14:
-                    temp7 = "Pharmeasy";
-                    break;
-                case 15:
-                    temp7 = "1mg";
-                    break;
-                case 16:
-                    temp7 = "Netmeds";
-                    break;
-                case 18:
-                    temp7 = "Croma";
-                    break;
                 case 19:
                     temp7 = "Reliance";
-                    break;
-                case 20:
-                    temp7 = "Tatacliq";
                     break;
             }
 

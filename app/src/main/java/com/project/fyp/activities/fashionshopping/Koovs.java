@@ -20,8 +20,6 @@ public class Koovs extends AsyncTask<String, Void, ArrayList<Product>> implement
         }
     }
 
-
-
     @Override
     protected ArrayList<Product> doInBackground(String... strings) {
         try{

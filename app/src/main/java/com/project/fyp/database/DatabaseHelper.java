@@ -19,10 +19,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String GENERAL_ITEMS = "generalItems";
     public static final String LAST_CLICKED_GENERAL_ITEMS = "lastClickedGeneralItems";
 
+    public static final String FASHION_ITEMS = "fashionItems";
+    public static final String LAST_CLICKED_FASHION_ITEMS = "lastClickedFashionItems";
+
     public static final String SEARCH_RESULTS = "searchResults";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 3);
+        super(context, DATABASE_NAME, null, 4);
         this.context = context;
     }
 
@@ -33,19 +36,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table IF NOT EXISTS " + GENERAL_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL, rating FLOAT, ratingCount TEXT)");
         db.execSQL("create table IF NOT EXISTS " + LAST_CLICKED_GENERAL_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL, rating FLOAT, ratingCount TEXT)");
 
+        db.execSQL("create table IF NOT EXISTS " + FASHION_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL)");
+        db.execSQL("create table IF NOT EXISTS " + LAST_CLICKED_FASHION_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL)");
+
+
         db.execSQL("create table IF NOT EXISTS " + SEARCH_RESULTS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, searchedItem TEXT NOT NULL)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + GENERAL_ITEMS);
-        db.execSQL("DROP TABLE IF EXISTS " + LOGIN_DATABASE);
-        db.execSQL("DROP TABLE IF EXISTS " + SEARCH_RESULTS);
-        db.execSQL("DROP TABLE IF EXISTS " + LAST_CLICKED_GENERAL_ITEMS);
+        db.execSQL("DROP TABLE IF EXISTS " + FASHION_ITEMS);
+        db.execSQL("DROP TABLE IF EXISTS " + LAST_CLICKED_FASHION_ITEMS);
         db.execSQL("create table IF NOT EXISTS " + LOGIN_DATABASE + "(email TEXT NOT NULL, password TEXT NOT NULL, loggedIn TEXT NOT NULL)");
         db.execSQL("create table IF NOT EXISTS " + GENERAL_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL, rating FLOAT, ratingCount TEXT)");
         db.execSQL("create table IF NOT EXISTS " + LAST_CLICKED_GENERAL_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL, rating FLOAT, ratingCount TEXT)");
         db.execSQL("create table IF NOT EXISTS " + SEARCH_RESULTS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, searchedItem TEXT NOT NULL)");
+        db.execSQL("create table IF NOT EXISTS " + FASHION_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL)");
+        db.execSQL("create table IF NOT EXISTS " + LAST_CLICKED_FASHION_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL)");
+
     }
 
     public Cursor getData(String tableName){
@@ -282,6 +290,141 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 product.setTag(res.getString(7));
                 product.setRating(res.getFloat(8));
                 product.setRatingCount(res.getString(9));
+                arrayList.add(product);
+            }
+            return arrayList;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+
+
+    //Fashion Database
+
+    public ArrayList<Product> getFashionItemsWishlist(){
+        try{
+            ArrayList<Product> arrayList = new ArrayList<>();
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor res = db.rawQuery("SELECT * FROM " + FASHION_ITEMS,null);
+            while (res.moveToNext()){
+                Product product = new Product();
+                product.setTitle(res.getString(1));
+                product.setPriceBefore(res.getString(2));
+                product.setDiscountedPrice(res.getString(3));
+                product.setDiscount(res.getString(4));
+                product.setImageLink(res.getString(5));
+                product.setProductLink(res.getString(6));
+                product.setTag(res.getString(7));
+                arrayList.add(product);
+            }
+            return arrayList;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    public void insertFashionItemsWishlist(Product product){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("title",product.getTitle());
+            contentValues.put("priceBefore",product.getPriceBefore());
+            contentValues.put("discountedPrice",product.getDiscountedPrice());
+            contentValues.put("discount",product.getDiscount());
+            contentValues.put("imageLink",product.getImageLink());
+            contentValues.put("productLink",product.getProductLink());
+            contentValues.put("tag",product.getTag());
+            db.insert(FASHION_ITEMS,null,contentValues);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public boolean deleteFashionItemsWishlist(String productLink){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            return db.delete(FASHION_ITEMS,  "productLink = '" + productLink + "'", null) > 0;
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+    }
+
+    public boolean checkFashionItem(String productLink){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + FASHION_ITEMS + " WHERE productLink = '" + productLink + "'",null);
+        if (res.getCount() > 0 ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean checkFashionItemList(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + FASHION_ITEMS,null);
+        if (res.getCount() > 0 ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+
+    public void insertFashionItemsLastClicked(Product product){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("title",product.getTitle());
+            contentValues.put("priceBefore",product.getPriceBefore());
+            contentValues.put("discountedPrice",product.getDiscountedPrice());
+            contentValues.put("discount",product.getDiscount());
+            contentValues.put("imageLink",product.getImageLink());
+            contentValues.put("productLink",product.getProductLink());
+            contentValues.put("tag",product.getTag());
+            db.insert(LAST_CLICKED_FASHION_ITEMS,null,contentValues);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public boolean deleteFashionItemsLastClicked(String productLink){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            return db.delete(LAST_CLICKED_FASHION_ITEMS,  "productLink = '" + productLink + "'", null) > 0;
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+    }
+
+    public boolean checkFashionItemListLastClicked(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + LAST_CLICKED_FASHION_ITEMS,null);
+        if (res.getCount() > 0 ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public ArrayList<Product> getFashionItemsLastClicked(){
+        try{
+            ArrayList<Product> arrayList = new ArrayList<>();
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor res = db.rawQuery("SELECT * FROM " + LAST_CLICKED_FASHION_ITEMS,null);
+            while (res.moveToNext()){
+                Product product = new Product();
+                product.setTitle(res.getString(1));
+                product.setPriceBefore(res.getString(2));
+                product.setDiscountedPrice(res.getString(3));
+                product.setDiscount(res.getString(4));
+                product.setImageLink(res.getString(5));
+                product.setProductLink(res.getString(6));
+                product.setTag(res.getString(7));
                 arrayList.add(product);
             }
             return arrayList;

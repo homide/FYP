@@ -24,6 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.project.fyp.R;
 import com.project.fyp.activities.Main2Activity;
 import com.project.fyp.activities.SelectCategoryClass;
+import com.project.fyp.activities.login.LoginPage;
 import com.project.fyp.activities.webview.WebViewActivity;
 import com.project.fyp.activities.wishlist.MyAdapterSavedGeneral;
 import com.project.fyp.activities.wishlist.WishlistActivity;
@@ -217,10 +218,12 @@ public class Main_General_category extends AppCompatActivity implements arraySav
         // Handle navigation view item clicks here
         int id = item.getItemId();
 
-//        if (id == R.id.notifications){
-//            Intent cinemaIntent = new Intent(Main_General_category.this, Notifications.class);
-//            startActivity(cinemaIntent);
-//        }
+        if (id == R.id.logOut){
+            databaseHelper.deleteLoginDetails();
+            Intent intent = new Intent(this, LoginPage.class);
+            startActivity(intent);
+            finishAffinity();
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

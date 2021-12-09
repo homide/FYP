@@ -1,14 +1,18 @@
-package com.project.fyp.adapters;
+package com.project.fyp.activities.wishlist;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,37 +21,35 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.fyp.R;
+import com.project.fyp.adapters.MyAdapterFashion;
 import com.project.fyp.database.DatabaseHelper;
 import com.project.fyp.models.Product;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MyAdapterFashion extends RecyclerView.Adapter<MyAdapterFashion.ViewHolder> {
+public class MyAdapterSavedFashion extends RecyclerView.Adapter<MyAdapterSavedFashion.ViewHolder> {
     Context context;
     ArrayList<Product> products;
 
-    //Database
-    DatabaseHelper databaseHelper;
-
-    public MyAdapterFashion(Context context, ArrayList<Product> products){
+    public MyAdapterSavedFashion(Context context, ArrayList<Product> products){
         this.context = context;
         this.products = products;
-        databaseHelper = new DatabaseHelper(context);
+
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyAdapterSavedFashion.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_fashion, parent, false);
-        return new ViewHolder(view);
+        return new MyAdapterSavedFashion.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyAdapterSavedFashion.ViewHolder holder, int position) {
         Product product = products.get(position);
         try {
-            holder.deleteButton.setVisibility(View.INVISIBLE);
+            holder.saveButton.setVisibility(View.INVISIBLE);
             holder.mainTitle.setText(product.title);
             holder.priceBefore.setText(product.priceBefore);
             holder.discPrice.setText(product.discountedPrice);
@@ -86,13 +88,35 @@ public class MyAdapterFashion extends RecyclerView.Adapter<MyAdapterFashion.View
             System.out.println(m);
         }
 
-        holder.saveButton.setOnClickListener(v->{
-            if (databaseHelper.checkFashionItem(products.get(position).getProductLink())){
-                Toast.makeText(context,"Already in your wishlist",Toast.LENGTH_LONG).show();
-            }else{
-                databaseHelper.insertFashionItemsWishlist(products.get(position));
-                Toast.makeText(context,"Product added to wishlist",Toast.LENGTH_LONG).show();
-            }
+        holder.deleteButton.setOnClickListener(v->{
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert inflater != null;
+            @SuppressLint("InflateParams") View popupView = inflater.inflate(R.layout.delete_layout,null);
+            final int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
+            popupWindow.setOutsideTouchable(false);
+            popupWindow.update();
+            popupWindow.showAtLocation(v, Gravity.CENTER,0,0);
+
+            Button cancelButton = popupView.findViewById(R.id.cancelButtonDelete);
+            Button confirmButton = popupView.findViewById(R.id.confirmButtonDelete);
+
+            cancelButton.setOnClickListener(v1 -> {
+                popupWindow.dismiss();
+            });
+
+            confirmButton.setOnClickListener(v1->{
+                DatabaseHelper databaseHelper = new DatabaseHelper(context);
+                if (databaseHelper.deleteFashionItemsWishlist(product.getProductLink())) {
+                    products.remove(position);
+                    notifyDataSetChanged();
+                    Toast.makeText(context, "Deleted product!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Error in deleting!", Toast.LENGTH_LONG).show();
+                }
+                popupWindow.dismiss();
+            });
         });
 
     }
@@ -123,13 +147,6 @@ public class MyAdapterFashion extends RecyclerView.Adapter<MyAdapterFashion.View
         @Override
         public void onClick(View v) {
             int position = getLayoutPosition();
-            ArrayList<Product> mainList = databaseHelper.getFashionItemsLastClicked();
-            if (mainList.size() > 3){
-                databaseHelper.deleteFashionItemsLastClicked(mainList.get(0).getProductLink());
-                databaseHelper.insertFashionItemsLastClicked(products.get(position));
-            }else{
-                databaseHelper.insertFashionItemsLastClicked(products.get(position));
-            }
             Product url = products.get(position);
             String link = url.productLink;
             Intent intent = new Intent((Intent.ACTION_VIEW));

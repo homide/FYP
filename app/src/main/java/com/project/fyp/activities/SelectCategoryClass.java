@@ -60,14 +60,6 @@ public class SelectCategoryClass extends AppCompatActivity implements Navigation
                 startActivity(cinemaIntent);
             }
         });
-
-//        electroCat.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent cinemaIntent = new Intent(SelectCategoryClass.this, Main_Electronics_category.class);
-//                startActivity(cinemaIntent);
-//            }
-//        });
     }
 
     @Override

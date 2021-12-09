@@ -33,6 +33,7 @@
         <activity android:name=".activities.Main2Activity" />
         <activity android:name=".activities.wishlist.WishlistActivity" />
         <activity android:name=".activities.generalshopping.Main_General_category" />
+        <activity android:name=".activities.fashionshopping.Main_Fashion_category"/>
     </application>
 
 </manifest>

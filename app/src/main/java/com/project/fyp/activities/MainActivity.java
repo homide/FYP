@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             databaseHelper.deleteLoginDetails();
             Intent intent = new Intent(this, LoginPage.class);
             startActivity(intent);
+            finishAffinity();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

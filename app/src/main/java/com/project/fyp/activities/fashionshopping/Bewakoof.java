@@ -16,7 +16,9 @@ public class Bewakoof extends AsyncTask<String, Void, ArrayList<Product>> implem
     @Override
     protected void onPostExecute(ArrayList<Product> s) {
         super.onPostExecute(s);
-        arraySave.products.addAll(s);
+        for (int i = 0; i < 50; i++){
+            arraySave.products.add(s.get(i));
+        }
     }
 
 

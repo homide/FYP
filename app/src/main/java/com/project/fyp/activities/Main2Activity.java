@@ -2,6 +2,7 @@ package com.project.fyp.activities;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -21,8 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.project.fyp.R;
+import com.project.fyp.activities.login.LoginPage;
 import com.project.fyp.adapters.MyAdapterGeneral;
 import com.project.fyp.adapters.MyAdapterFashion;
+import com.project.fyp.database.DatabaseHelper;
 import com.project.fyp.interfaces.arraySave;
 import com.project.fyp.threads.CallingSites;
 
@@ -34,6 +37,8 @@ public class Main2Activity extends AppCompatActivity implements arraySave, Navig
     AutoCompleteTextView searchBar;
     Button search;
 
+    DatabaseHelper databaseHelper;
+
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,8 @@ public class Main2Activity extends AppCompatActivity implements arraySave, Navig
         setContentView(R.layout.activity_main2);
 
         int catSelector = getIntent().getIntExtra("cat", 0);
+
+        databaseHelper = new DatabaseHelper(this);
 
         drawerLayout = findViewById(R.id.drawer_layout3);
         navigationView = findViewById(R.id.navView3);
@@ -62,8 +69,13 @@ public class Main2Activity extends AppCompatActivity implements arraySave, Navig
                 pd.setMessage("Searching websites...");
                 pd.show();
                 pd.setCanceledOnTouchOutside(false);
-                CallingSites callingSites = new CallingSites();
-                callingSites.callingmain(searchtext);
+                if (catSelector == 0){
+                    CallingSites callingSites = new CallingSites();
+                    callingSites.callingmain(searchtext);
+                }else{
+                    CallingSites callingSites = new CallingSites();
+                    callingSites.callingfashion(searchtext);
+                }
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
                     pd.dismiss();
@@ -85,7 +97,7 @@ public class Main2Activity extends AppCompatActivity implements arraySave, Navig
 //                            recyclerView.setAdapter(adaptorgroceries);
 //                            break;
                     }
-                }, 2000);
+                }, 4000);
                 searchBar.setText("");
             }
         });
@@ -192,9 +204,14 @@ public class Main2Activity extends AppCompatActivity implements arraySave, Navig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Toast.makeText(this, "This doesn't have a funtion yet", Toast.LENGTH_SHORT).show();
+        if (id == R.id.logOut){
+            databaseHelper.deleteLoginDetails();
+            Intent intent = new Intent(this, LoginPage.class);
+            startActivity(intent);
+            finishAffinity();
+        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout3);
+        DrawerLayout drawer =findViewById(R.id.drawer_layout3);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

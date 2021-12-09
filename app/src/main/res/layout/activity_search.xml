@@ -373,66 +373,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/fashionCat"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginBottom="5dp"
-                app:cardElevation="5dp"
-                app:cardCornerRadius="15dp"
-                app:cardBackgroundColor="@color/bottom_nav_icon_blue"
-                android:layout_margin="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="ELECTRONICS CATEGORY"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="30sp"
-                        android:layout_marginBottom="10dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="SNAPDEAL || PAYTMMALL || SHOPCLUES"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="RELIANCE DIGITAL"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"/>
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

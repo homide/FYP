@@ -20,8 +20,11 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            app:tabMode="scrollable"
-            android:layout_height="wrap_content">
+            app:tabMode="fixed"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabIndicatorFullWidth="true"
+            app:tabMaxWidth="0dp">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItem"
@@ -34,12 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fashion" />
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tabItem3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Electronics" />
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -55,7 +52,8 @@
         android:id="@+id/navView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        app:menu="@menu/navigation_menu">
 
     </com.google.android.material.navigation.NavigationView>
 

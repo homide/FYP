@@ -29,23 +29,8 @@ public class CallingSites {
         ThreadCallFashion shop = new ThreadCallFashion("https://www.shopclues.com/search?q=" +searchtext +"&sc_z=2222&z=0&count=10", "ShopClues");
         shop.start();
 
-        ThreadCallFashion koov = new ThreadCallFashion("https://www.koovs.com/" + searchtext, "Koovs");
+        ThreadCallFashion koov = new ThreadCallFashion("https://koovs.com/search?type=product&options%5Bunavailable_products%5D=last&options%5Bprefix%5D=none&q="+ searchtext+"*+product_type:*", "Koovs");
         koov.start();
-    }
-
-    public void callingelectronics(String searchtext){
-        ThreadCallFashion pay = new ThreadCallFashion("https://www.paytmmall.com/shop/search?q=" +searchtext+ "&from=organic&child_site_id=6","Paytm");
-        pay.start();
-
-        ThreadCallFashion snap = new ThreadCallFashion("https://www.snapdeal.com/search?keyword=" + searchtext + "&santizedKeyword=&catId=" +
-                "&categoryId=0&suggested=true&vertical=&noOfResults=20&searchState=&clickSrc=suggested&lastKeyword=&prodCatId=&change" +
-                "BackToAll=false&foundInAll=false&categoryIdSearched=&cityPageUrl=&categoryUrl=&url=&utmContent=&dealDetail=&sort=rlvncy","Snapdeal" );
-        snap.start();
-
-        ThreadCallFashion shop = new ThreadCallFashion("https://www.shopclues.com/search?q=" +searchtext +"&sc_z=2222&z=0&count=10", "ShopClues");
-        shop.start();
-
-
     }
 
 }

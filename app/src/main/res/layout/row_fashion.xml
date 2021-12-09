@@ -47,31 +47,6 @@
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/pricelayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <RatingBar
-                    android:id="@+id/ratingBar"
-                    style="@style/Widget.AppCompat.RatingBar.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:rating="3.5" />
-
-                <TextView
-                    android:id="@+id/ratingCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="15607" />
-
-            </LinearLayout>
-
             <RelativeLayout
                 android:id="@+id/pricelayout"
                 android:layout_width="match_parent"
@@ -141,13 +116,23 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:layout_editor_absoluteX="8dp">
 
-                <ImageView
-                    android:id="@+id/add2list"
+                <ImageButton
+                    android:id="@+id/saveButton"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
-                    android:src="@drawable/heart" />
+                    android:src="@drawable/heart"
+                    android:background="@null"/>
+
+                <ImageButton
+                    android:id="@+id/deleteItem"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@null"
+                    android:src="@drawable/ic_trash_2" />
 
                 <ImageView
                     android:id="@+id/tag"

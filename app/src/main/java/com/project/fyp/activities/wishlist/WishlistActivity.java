@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.project.fyp.R;
+import com.project.fyp.activities.login.LoginPage;
+import com.project.fyp.database.DatabaseHelper;
 
 public class WishlistActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -30,6 +32,8 @@ public class WishlistActivity extends AppCompatActivity implements NavigationVie
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
+    DatabaseHelper databaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,8 @@ public class WishlistActivity extends AppCompatActivity implements NavigationVie
 
         tabLayout = findViewById(R.id.tabLayout);
         frameLayout = findViewById(R.id.frameLayout);
+
+        databaseHelper = new DatabaseHelper(this);
 
         fragment = new GeneralWishes(this);
         fragmentManager = getSupportFragmentManager();
@@ -81,20 +87,6 @@ public class WishlistActivity extends AppCompatActivity implements NavigationVie
             }
         });
 
-//        findViewById(R.id.notifications_toolbar_icon).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(WishlistActivity.this, Notifications.class));
-//            }
-//        });
-//
-//        findViewById(R.id.category_toolbar_icon).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(WishlistActivity.this, SelectCategoryClass.class));
-//            }
-//        });
-
         navigationDrawer();
     }
 
@@ -115,24 +107,13 @@ public class WishlistActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(MenuItem item) {
 //        // Handle navigation view item clicks here
         int id = item.getItemId();
-//
-//        if (id == R.id.notifications){
-//            Intent cinemaIntent = new Intent(WishlistActivity.this, Notifications.class);
-//            startActivity(cinemaIntent);
-//            finish();
-//        }
-//        else if (id == R.id.wishlist){
-//
-//        }
-//        else if (id == R.id.category){
-//            Intent intent = new Intent(WishlistActivity.this, SelectCategoryClass.class);
-//            startActivity(intent);
-//            finish();
-//        }
-//        else if(id == R.id.myAccount || id == R.id.settings || id == R.id.legalAndAbout){
-//            Toast.makeText(this, "This doesn't have a function yet", Toast.LENGTH_SHORT).show();
-//        }
-//
+
+        if (id == R.id.logOut){
+            databaseHelper.deleteLoginDetails();
+            Intent intent = new Intent(this, LoginPage.class);
+            startActivity(intent);
+            finishAffinity();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
