@@ -19,6 +19,7 @@ public class CallingGeneral {
         Document doc = Jsoup.connect(websiteUrl).get(); //JSoup Element to get HTML Data from the corresponding website
         Elements links = doc.getElementsByClass(productClass); // JSoup Element to get HTML Data from the corresponding Class/Section
         link = websiteUrl;
+        System.out.println(links.size());
 
         for (Element link : links) {
             String temp1 = null, temp2 = null, temp3 = null, temp4 = null, temp5 = null, temp6 = null,temp7 = null, temp9 = null;

@@ -8,17 +8,19 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.project.fyp.R;
+import com.project.fyp.activities.fashionshopping.Main_Fashion_category;
 import com.project.fyp.activities.generalshopping.Main_General_category;
 
 public class SelectCategoryClass extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     NavigationView navigationView2;
-    ImageView generalCat, fashionCat;
+    CardView generalCat, fashionCat;
     DrawerLayout drawerLayout;
     ImageView back_btn;
 
@@ -51,30 +53,14 @@ public class SelectCategoryClass extends AppCompatActivity implements Navigation
             }
         });
 
-//        groceriesCat.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent cinemaIntent = new Intent(SelectCategoryClass.this, Main_Groceries_category.class);
-//                startActivity(cinemaIntent);
-//            }
-//        });
-//
-//        fashionCat.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent cinemaIntent = new Intent(SelectCategoryClass.this, Main_Fashion_category.class);
-//                startActivity(cinemaIntent);
-//            }
-//        });
-//
-//        medCat.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent cinemaIntent = new Intent(SelectCategoryClass.this, Main_Medicine_category.class);
-//                startActivity(cinemaIntent);
-//            }
-//        });
-//
+        fashionCat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cinemaIntent = new Intent(SelectCategoryClass.this, Main_Fashion_category.class);
+                startActivity(cinemaIntent);
+            }
+        });
+
 //        electroCat.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

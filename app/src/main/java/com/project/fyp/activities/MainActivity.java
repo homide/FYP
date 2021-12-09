@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -27,8 +29,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.project.fyp.R;
 import com.project.fyp.activities.login.LoginPage;
+import com.project.fyp.activities.wishlist.WishlistActivity;
+import com.project.fyp.adapters.MyAdapterWebView;
 import com.project.fyp.database.DatabaseHelper;
 import com.project.fyp.models.User;
+import com.project.fyp.models.Websites;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //    static final float END_SCALE = 0.7f;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-    ViewFlipper viewFlipper;
     TextView welcomeUserTV;
+    RecyclerView recyclerView;
 
     //Firebase
     FirebaseDatabase firebaseDatabase;
@@ -47,9 +54,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //Variables
     User currentUser;
+    ArrayList<Websites> websitesList;
 
     //Database
     DatabaseHelper databaseHelper;
+
+    //Adapter
+    MyAdapterWebView adapterWebView;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -59,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout = findViewById(R.id.drawer_layout);
         welcomeUserTV = findViewById(R.id.welcomeUserTextView);
+        recyclerView = findViewById(R.id.websiteRecycler);
 
         firebaseDatabase = FirebaseDatabase.getInstance("https://fyp-main-144de-default-rtdb.asia-southeast1.firebasedatabase.app/");
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -68,18 +80,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         getUserData();
 
-//        findViewById(R.id.wishlist_toolbar_icon).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, WishlistActivity.class));
-//            }
-//        });
-//
+        getAllWebsites();
+        adapterWebView = new MyAdapterWebView(this, websitesList);
+        GridLayoutManager glm = new GridLayoutManager(this,3,RecyclerView.VERTICAL,false);
+        recyclerView.setLayoutManager(glm);
+        recyclerView.setAdapter(adapterWebView);
+
+        findViewById(R.id.wishlist_toolbar_icon).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, WishlistActivity.class)));
+
         findViewById(R.id.buttonBar).setOnClickListener(v->{
                 startActivity(new Intent(MainActivity.this, SelectCategoryClass.class));
         });
 
         navigationDrawer();
+    }
+
+    private void getAllWebsites(){
+        websitesList = new ArrayList<>();
+        Websites website1 = new Websites("https://www.flipkart.com/","https://media.glassdoor.com/sqll/300494/flipkart-com-squarelogo-1433217726546.png");
+        websitesList.add(website1);
+        Websites website2 = new Websites("https://www.amazon.in/","https://i.pinimg.com/originals/01/ca/da/01cada77a0a7d326d85b7969fe26a728.jpg");
+        websitesList.add(website2);
+        Websites website3 = new Websites("https://www.snapdeal.com/","https://upload.wikimedia.org/wikipedia/en/thumb/3/35/Snapdeal_Logo_new.png/480px-Snapdeal_Logo_new.png");
+        websitesList.add(website3);
+        Websites website4 = new Websites("https://www.myntra.com/","https://images.indianexpress.com/2021/01/myntra.png");
+        websitesList.add(website4);
+        Websites website5 = new Websites("https://www.shopclues.com/","https://images.shopclues.com/images/ui/s_logo.png");
+        websitesList.add(website5);
+        Websites website6 = new Websites("https://paytmmall.com/","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbTlvGzotj7JDiYug5-2FFKPyC9koBXDPywA&usqp=CAU");
+        websitesList.add(website6);
+        Websites website7 = new Websites("https://www.ajio.com/","https://play-lh.googleusercontent.com/RWNQyHoMPJ-Z8ApQhQchXsfoBXrj3By1cf49GPRK6-hYiIv0RL6Z1fdZl1OAUpqHCB8");
+        websitesList.add(website7);
+        Websites website9 = new Websites("https://www.croma.com/","https://m.media-amazon.com/images/S/abs-image-upload-na/8/AmazonStores/A21TJRUUN4KGV/19dae191bb75eda8e3fc9ffc1e335b9f.w400.h400.jpg");
+        websitesList.add(website9);
+        Websites website10 = new Websites("https://www.reliancedigital.in/","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu2gpsB_ZhUCb4-8aVrkvG9ONLVKLzDz3Ocg&usqp=CAU");
+        websitesList.add(website10);
     }
 
     private void getUserData(){
@@ -109,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void navigationDrawer() {
-        //hamburger
         navigationView = findViewById(R.id.navView);
         navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(this);
@@ -121,11 +155,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-//        navigationDrawerAnimation();
     }
 
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here
         int id = item.getItemId();
 
         if (id == R.id.logOut){
@@ -133,17 +165,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, LoginPage.class);
             startActivity(intent);
         }
-//        else if (id == R.id.wishlist){
-//            Intent cinemaIntent = new Intent(this, WishlistActivity.class);
-//            startActivity(cinemaIntent);
-//        }
-//        else if (id == R.id.category){
-//            Intent intent = new Intent(this, SelectCategoryClass.class);
-//            startActivity(intent);
-//        }
-//        else if(id == R.id.myAccount || id == R.id.settings || id == R.id.legalAndAbout){
-//            Toast.makeText(this, "This doesn't have a function yet", Toast.LENGTH_SHORT).show();
-//        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

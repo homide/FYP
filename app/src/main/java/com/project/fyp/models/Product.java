@@ -4,6 +4,11 @@ public class Product {
     //(title, price before, discounted price, discount, image link, product link,tag )
     public String title, priceBefore, discountedPrice, discount, imageLink, productLink, tag, ratingCount;
     public float rating;
+
+    public Product(){
+
+    }
+
     public Product(String title, String priceBefore, String discountedPrice, String discount, String imageLink, String productLink, String tag, float rating, String ratingCount){
         this.title = title;
         this.priceBefore = priceBefore;
@@ -14,6 +19,16 @@ public class Product {
         this.tag = tag;
         this.rating = rating;
         this.ratingCount = ratingCount;
+    }
+
+    public Product(String title, String priceBefore, String discountedPrice, String discount, String imageLink, String productLink, String tag) {
+        this.title = title;
+        this.priceBefore = priceBefore;
+        this.discountedPrice = discountedPrice;
+        this.discount = discount;
+        this.imageLink = imageLink;
+        this.productLink = productLink;
+        this.tag = tag;
     }
 
     public String getTitle() {

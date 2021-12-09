@@ -55,6 +55,12 @@ public class WishlistActivity extends AppCompatActivity implements NavigationVie
                     case 0:
                         fragment = new GeneralWishes(WishlistActivity.this);
                         break;
+                    case 1:
+                        fragment = new FashionWishes(WishlistActivity.this);
+                        break;
+                    case 2:
+                        fragment = new GeneralWishes(WishlistActivity.this);
+                        break;
 
                 }
                 FragmentManager fm = getSupportFragmentManager();
@@ -72,35 +78,6 @@ public class WishlistActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
-            }
-        });
-
-
-        findViewById(R.id.insta_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String link = "https://www.instagram.com";
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(link));
-                startActivity(intent);
-            }
-        });
-        findViewById(R.id.fb_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String link = "https://www.facebook.com";
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(link));
-                startActivity(intent);
-            }
-        });
-        findViewById(R.id.twitter_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String link = "https://twitter.com";
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(link));
-                startActivity(intent);
             }
         });
 
@@ -137,7 +114,7 @@ public class WishlistActivity extends AppCompatActivity implements NavigationVie
 
     public boolean onNavigationItemSelected(MenuItem item) {
 //        // Handle navigation view item clicks here
-//        int id = item.getItemId();
+        int id = item.getItemId();
 //
 //        if (id == R.id.notifications){
 //            Intent cinemaIntent = new Intent(WishlistActivity.this, Notifications.class);
@@ -156,8 +133,8 @@ public class WishlistActivity extends AppCompatActivity implements NavigationVie
 //            Toast.makeText(this, "This doesn't have a function yet", Toast.LENGTH_SHORT).show();
 //        }
 //
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

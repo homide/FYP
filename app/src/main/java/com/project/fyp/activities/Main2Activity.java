@@ -2,7 +2,6 @@ package com.project.fyp.activities;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -23,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 import com.project.fyp.R;
 import com.project.fyp.adapters.MyAdapterGeneral;
+import com.project.fyp.adapters.MyAdapterFashion;
 import com.project.fyp.interfaces.arraySave;
 import com.project.fyp.threads.CallingSites;
 
@@ -48,7 +48,7 @@ public class Main2Activity extends AppCompatActivity implements arraySave, Navig
         navigationView.setNavigationItemSelectedListener(this);
         searchBar = findViewById(R.id.searchText);
         search = findViewById(R.id.btnSearch);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         search.setOnClickListener(v->{
             String searchtext = searchBar.getText().toString();
@@ -74,11 +74,11 @@ public class Main2Activity extends AppCompatActivity implements arraySave, Navig
                             recyclerView.setAdapter(adapter);
                             keepRefreshing();
                             break;
-//                        case 1:
-//                            MyAdaptorFashion adaptorfashion = new MyAdaptorFashion(Main2Activity.this, arraySave.products);
-//                            recyclerView.setLayoutManager(new GridLayoutManager(Main2Activity.this, 2));
-//                            recyclerView.setAdapter(adaptorfashion);
-//                            break;
+                        case 1:
+                            MyAdapterFashion adapterfashion = new MyAdapterFashion(Main2Activity.this, arraySave.products);
+                            recyclerView.setLayoutManager(new GridLayoutManager(Main2Activity.this, 2));
+                            recyclerView.setAdapter(adapterfashion);
+                            break;
 //                        case 2:
 //                            MyAdaptorGroceries adaptorgroceries = new MyAdaptorGroceries(Main2Activity.this, arraySave.products);
 //                            recyclerView.setLayoutManager(new LinearLayoutManager(Main2Activity.this));
@@ -104,11 +104,11 @@ public class Main2Activity extends AppCompatActivity implements arraySave, Navig
                 recyclerView.setAdapter(adapter);
                 keepRefreshing();
                 break;
-//            case 1:
-//                MyAdaptorFashion adaptorfashion = new MyAdaptorFashion(Main2Activity.this, arraySave.products);
-//                recyclerView.setLayoutManager(new GridLayoutManager(Main2Activity.this, 2));
-//                recyclerView.setAdapter(adaptorfashion);
-//                break;
+            case 1:
+                MyAdapterFashion adaptorfashion = new MyAdapterFashion(Main2Activity.this, arraySave.products);
+                recyclerView.setLayoutManager(new GridLayoutManager(Main2Activity.this, 2));
+                recyclerView.setAdapter(adaptorfashion);
+                break;
 //            case 2:
 //                MyAdaptorGroceries adaptorgroceries = new MyAdaptorGroceries(Main2Activity.this, arraySave.products);
 //                recyclerView.setLayoutManager(new LinearLayoutManager(Main2Activity.this));

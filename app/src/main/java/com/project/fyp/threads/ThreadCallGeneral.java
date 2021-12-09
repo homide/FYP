@@ -1,7 +1,6 @@
 package com.project.fyp.threads;
 
 import com.project.fyp.activities.generalshopping.Paytm;
-import com.project.fyp.activities.generalshopping.Pricee;
 import com.project.fyp.activities.generalshopping.ShopClues;
 import com.project.fyp.activities.generalshopping.Snapdeal;
 
@@ -26,10 +25,7 @@ public class ThreadCallGeneral implements Runnable {
             Paytm pay = new Paytm();
             pay.execute(url);
         }
-        if (methodCallingName.equals("Pricee")){
-            Pricee pricee = new Pricee();
-            pricee.execute(url);
-        }
+
     }
 
     public void start(){

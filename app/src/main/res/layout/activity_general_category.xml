@@ -10,169 +10,131 @@
     tools:context=""
     tools:openDrawer="">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/search_toolbar"
-            layout="@layout/toolbar"
-            android:background="#00000000" />
-
-        <HorizontalScrollView
-            android:layout_below="@id/search_toolbar"
-            android:id="@+id/scrollViewGeneral"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/search_toolbar"
+                layout="@layout/toolbar"
+                android:background="#00000000" />
+
+            <HorizontalScrollView
+                android:layout_below="@id/search_toolbar"
+                android:id="@+id/scrollViewGeneral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/flipkartWeb"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/flipkart_logo"
+                        android:layout_marginHorizontal="5dp"/>
+
+                    <ImageView
+                        android:id="@+id/amazonWeb"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/amazon_logo"
+                        android:layout_marginHorizontal="5dp"/>
+
+                    <ImageView
+                        android:id="@+id/snapdealWeb"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/snapdeal_logo"
+                        android:layout_marginHorizontal="5dp"/>
+                    <ImageView
+                        android:id="@+id/shopcluesWeb"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/shpcls_logo"
+                        android:layout_marginHorizontal="5dp"/>
+                    <ImageView
+                        android:id="@+id/paytmMallWeb"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/pytmll_logo"
+                        android:layout_marginHorizontal="5dp"/>
+                </LinearLayout>
+
+            </HorizontalScrollView>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
+                android:id="@+id/linearGeneralSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@id/scrollViewGeneral"
+                android:layout_margin="10dp">
+                <TextView
+                    android:id="@+id/lastSeenProductsTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last seen products"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="start"
+                    android:textSize="30dp"/>
 
-                <ImageView
-                    android:id="@+id/flipkartWeb"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/flipkart_logo"
-                    android:layout_marginHorizontal="5dp"/>
 
-                <ImageView
-                    android:id="@+id/amazonWeb"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/amazon_logo"
-                    android:layout_marginHorizontal="5dp"/>
-
-                <ImageView
-                    android:id="@+id/snapdealWeb"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/snapdeal_logo"
-                    android:layout_marginHorizontal="5dp"/>
-                <ImageView
-                    android:id="@+id/shopcluesWeb"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/shpcls_logo"
-                    android:layout_marginHorizontal="5dp"/>
-                <ImageView
-                    android:id="@+id/paytmMallWeb"
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/pytmll_logo"
-                    android:layout_marginHorizontal="5dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lastSeenRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
 
-        </HorizontalScrollView>
-
-        <LinearLayout
-            android:id="@+id/linearGeneralSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@id/scrollViewGeneral"
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Last seen products"
-                android:textColor="@color/Black"
-                android:layout_gravity="center"
-                android:textSize="30dp"/>
-
-            <HorizontalScrollView
+            <LinearLayout
+                android:id="@+id/linearSavedGeneral"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linearGeneralSearch"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recylerViewGeneralSearch"
+                <TextView
+                    android:id="@+id/savedGeneralItemsTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"/>
+                    android:layout_gravity="start"
+                    android:text="Saved General Items"
+                    android:textColor="@color/Black"
+                    android:textSize="30dp" />
 
-            </HorizontalScrollView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearSavedGeneral"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@id/linearGeneralSearch"
-            android:layout_margin="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Saved General Items"
-                android:textColor="@color/Black"
-                android:layout_gravity="center"
-                android:textSize="30dp"/>
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recylerViewGeneralSaved"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/savedItemRecyclerView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"/>
+                    android:layout_margin="5dp" />
+            </LinearLayout>
 
-            </HorizontalScrollView>
-        </LinearLayout>
+        </RelativeLayout>
 
-    </RelativeLayout>
+
+    </ScrollView>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/sincityred"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal">
-
-
-            <ImageView
-                android:id="@+id/twitter_btn"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginLeft="30dp"
-                app:srcCompat="@drawable/twitter_white" />
-
-            <ImageView
-                android:id="@+id/fb_btn"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                app:srcCompat="@drawable/facebook" />
-
-            <ImageView
-                android:id="@+id/insta_btn"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="30dp"
-                android:layout_marginRight="30dp"
-                app:srcCompat="@drawable/instagram" />
-
-        </RelativeLayout>
 
     </com.google.android.material.navigation.NavigationView>
 

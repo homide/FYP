@@ -33,7 +33,7 @@ public class SignInPage extends AppCompatActivity {
     Button signUpButton;
 
     //Variables
-    String emailText, usernameText, passwordText, passConfirmText, userID;
+    String emailText, usernameText, passwordText, passConfirmText;
     boolean checkMailExist = false;
 
     //Firebase

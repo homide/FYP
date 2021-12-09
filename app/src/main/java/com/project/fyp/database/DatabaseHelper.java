@@ -7,23 +7,32 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.project.fyp.models.Product;
+import com.project.fyp.models.SearchList;
+
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     Context context;
     public static final String DATABASE_NAME = "allData";
     public static final String LOGIN_DATABASE = "loginDetails";
+
     public static final String GENERAL_ITEMS = "generalItems";
+    public static final String LAST_CLICKED_GENERAL_ITEMS = "lastClickedGeneralItems";
+
     public static final String SEARCH_RESULTS = "searchResults";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 3);
         this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table IF NOT EXISTS " + LOGIN_DATABASE + "(email TEXT NOT NULL, password TEXT NOT NULL, loggedIn TEXT NOT NULL)");
+
         db.execSQL("create table IF NOT EXISTS " + GENERAL_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL, rating FLOAT, ratingCount TEXT)");
+        db.execSQL("create table IF NOT EXISTS " + LAST_CLICKED_GENERAL_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL, rating FLOAT, ratingCount TEXT)");
+
         db.execSQL("create table IF NOT EXISTS " + SEARCH_RESULTS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, searchedItem TEXT NOT NULL)");
     }
 
@@ -32,8 +41,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + GENERAL_ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + LOGIN_DATABASE);
         db.execSQL("DROP TABLE IF EXISTS " + SEARCH_RESULTS);
+        db.execSQL("DROP TABLE IF EXISTS " + LAST_CLICKED_GENERAL_ITEMS);
         db.execSQL("create table IF NOT EXISTS " + LOGIN_DATABASE + "(email TEXT NOT NULL, password TEXT NOT NULL, loggedIn TEXT NOT NULL)");
         db.execSQL("create table IF NOT EXISTS " + GENERAL_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL, rating FLOAT, ratingCount TEXT)");
+        db.execSQL("create table IF NOT EXISTS " + LAST_CLICKED_GENERAL_ITEMS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, priceBefore TEXT, discountedPrice TEXT, discount TEXT, imageLink TEXT, productLink TEXT NOT NULL, tag TEXT NOT NULL, rating FLOAT, ratingCount TEXT)");
         db.execSQL("create table IF NOT EXISTS " + SEARCH_RESULTS + "(id INTEGER PRIMARY KEY AUTOINCREMENT, searchedItem TEXT NOT NULL)");
     }
 
@@ -103,6 +114,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public ArrayList<SearchList> getSearchedItems(){
+        try{
+            ArrayList<SearchList> arrayList = new ArrayList<>();
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor res = db.rawQuery("SELECT * FROM " + SEARCH_RESULTS,null);
+            while (res.moveToNext()){
+                SearchList searchList = new SearchList();
+                searchList.setId(res.getInt(0));
+                searchList.setSearchedItem(res.getString(1));
+            }
+            return arrayList;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+
     public void insertSearchItem(String itemName){
         try{
             SQLiteDatabase db = getWritableDatabase();
@@ -123,7 +151,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void insertGeneralItems(Product product){
+    public ArrayList<Product> getGeneralItemsWishlist(){
+        try{
+            ArrayList<Product> arrayList = new ArrayList<>();
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor res = db.rawQuery("SELECT * FROM " + GENERAL_ITEMS,null);
+            while (res.moveToNext()){
+                Product product = new Product();
+                product.setTitle(res.getString(1));
+                product.setPriceBefore(res.getString(2));
+                product.setDiscountedPrice(res.getString(3));
+                product.setDiscount(res.getString(4));
+                product.setImageLink(res.getString(5));
+                product.setProductLink(res.getString(6));
+                product.setTag(res.getString(7));
+                product.setRating(res.getFloat(8));
+                product.setRatingCount(res.getString(9));
+                arrayList.add(product);
+            }
+            return arrayList;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    public void insertGeneralItemsWishlist(Product product){
         try{
             SQLiteDatabase db = getWritableDatabase();
             ContentValues contentValues = new ContentValues();
@@ -142,7 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean deleteGeneralItems(String productLink){
+    public boolean deleteGeneralItemsWishlist(String productLink){
         try{
             SQLiteDatabase db = getWritableDatabase();
             return db.delete(GENERAL_ITEMS,  "productLink = '" + productLink + "'", null) > 0;
@@ -152,7 +205,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean checkGeneral(String productLink){
+    public boolean checkGeneralItem(String productLink){
         SQLiteDatabase db = getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + GENERAL_ITEMS + " WHERE productLink = '" + productLink + "'",null);
         if (res.getCount() > 0 ){
@@ -162,4 +215,79 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean checkGeneralItemList(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + GENERAL_ITEMS,null);
+        if (res.getCount() > 0 ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+
+    public void insertGeneralItemsLastClicked(Product product){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("title",product.getTitle());
+            contentValues.put("priceBefore",product.getPriceBefore());
+            contentValues.put("discountedPrice",product.getDiscountedPrice());
+            contentValues.put("discount",product.getDiscount());
+            contentValues.put("imageLink",product.getImageLink());
+            contentValues.put("productLink",product.getProductLink());
+            contentValues.put("tag",product.getTag());
+            contentValues.put("rating",product.getRating());
+            contentValues.put("ratingCount",product.getRatingCount());
+            db.insert(LAST_CLICKED_GENERAL_ITEMS,null,contentValues);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public boolean deleteGeneralItemsLastClicked(String productLink){
+        try{
+            SQLiteDatabase db = getWritableDatabase();
+            return db.delete(LAST_CLICKED_GENERAL_ITEMS,  "productLink = '" + productLink + "'", null) > 0;
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+    }
+
+    public boolean checkGeneralItemListLastClicked(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + LAST_CLICKED_GENERAL_ITEMS,null);
+        if (res.getCount() > 0 ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public ArrayList<Product> getGeneralItemsLastClicked(){
+        try{
+            ArrayList<Product> arrayList = new ArrayList<>();
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor res = db.rawQuery("SELECT * FROM " + LAST_CLICKED_GENERAL_ITEMS,null);
+            while (res.moveToNext()){
+                Product product = new Product();
+                product.setTitle(res.getString(1));
+                product.setPriceBefore(res.getString(2));
+                product.setDiscountedPrice(res.getString(3));
+                product.setDiscount(res.getString(4));
+                product.setImageLink(res.getString(5));
+                product.setProductLink(res.getString(6));
+                product.setTag(res.getString(7));
+                product.setRating(res.getFloat(8));
+                product.setRatingCount(res.getString(9));
+                arrayList.add(product);
+            }
+            return arrayList;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
 }

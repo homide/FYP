@@ -1,20 +1,27 @@
 package com.project.fyp.activities.wishlist;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.fyp.R;
+import com.project.fyp.database.DatabaseHelper;
 import com.project.fyp.models.Product;
 import com.squareup.picasso.Picasso;
 
@@ -84,35 +91,36 @@ public class MyAdapterSavedGeneral extends RecyclerView.Adapter<MyAdapterSavedGe
             System.out.println(m);
         }
 
-//        holder.deleteButton.setOnClickListener(v->{
-//            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            assert inflater != null;
-//            @SuppressLint("InflateParams") View popupView = inflater.inflate(R.layout.delete_layout,null);
-//            final int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-//            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-//            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
-//            popupWindow.setOutsideTouchable(false);
-//            popupWindow.update();
-//            popupWindow.showAtLocation(v, Gravity.CENTER,0,0);
-//
-//            Button cancelButton = popupView.findViewById(R.id.cancelButtonDelete);
-//            Button confirmButton = popupView.findViewById(R.id.confirmButtonDelete);
-//
-//            cancelButton.setOnClickListener(v1 -> {
-//                popupWindow.dismiss();
-//            });
-//
-////            confirmButton.setOnClickListener(v1->{
-////                DatabaseHelper databaseHelper = new DatabaseHelper(context);
-////                if (databaseHelper.deleteGeneralItems(product.getProductLink())) {
-////                    notifyDataSetChanged();
-////                    Toast.makeText(context, "Deleted data!", Toast.LENGTH_LONG).show();
-////                } else {
-////                    Toast.makeText(context, "Error in deleting!", Toast.LENGTH_LONG).show();
-////                }
-////                popupWindow.dismiss();
-////            });
-//        });
+        holder.deleteButton.setOnClickListener(v->{
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            assert inflater != null;
+            @SuppressLint("InflateParams") View popupView = inflater.inflate(R.layout.delete_layout,null);
+            final int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
+            popupWindow.setOutsideTouchable(false);
+            popupWindow.update();
+            popupWindow.showAtLocation(v, Gravity.CENTER,0,0);
+
+            Button cancelButton = popupView.findViewById(R.id.cancelButtonDelete);
+            Button confirmButton = popupView.findViewById(R.id.confirmButtonDelete);
+
+            cancelButton.setOnClickListener(v1 -> {
+                popupWindow.dismiss();
+            });
+
+            confirmButton.setOnClickListener(v1->{
+                DatabaseHelper databaseHelper = new DatabaseHelper(context);
+                if (databaseHelper.deleteGeneralItemsWishlist(product.getProductLink())) {
+                    products.remove(position);
+                    notifyDataSetChanged();
+                    Toast.makeText(context, "Deleted product!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Error in deleting!", Toast.LENGTH_LONG).show();
+                }
+                popupWindow.dismiss();
+            });
+        });
 
     }
 
