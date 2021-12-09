@@ -36,6 +36,7 @@ import com.project.fyp.interfaces.arraySave;
 import com.project.fyp.models.Product;
 import com.project.fyp.models.SearchList;
 import com.project.fyp.threads.CallingSites;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -77,6 +78,11 @@ public class Main_Fashion_category extends AppCompatActivity implements arraySav
         lastSeenProductsTV = findViewById(R.id.lastSeenProductsTV);
         savedRecycler = findViewById(R.id.savedItemRecyclerView);
         lastSeenRecycler = findViewById(R.id.lastSeenRecyclerView);
+
+        Picasso.with(this).load("https://res-4.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco/v1397190836/593d89ec956537ccb4212dd87539d092.jpg").into(koovsWeb);
+        Picasso.with(this).load("https://images.bewakoof.com/original/bewakoof-b--app-logo-bewakoof-com-new-logo-1483957527.jpg").into(bewakoofWeb);
+        Picasso.with(this).load("https://images.indianexpress.com/2021/01/myntra.png").into(myntaWeb);
+
 
         databaseHelper = new DatabaseHelper(this);
 
